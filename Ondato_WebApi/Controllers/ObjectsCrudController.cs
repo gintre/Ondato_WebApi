@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Ondato_WebApi.Attributes;
 
 namespace Ondato_WebApi.Controllers
 {
     [ApiController]
+    [TypeFilter(typeof(AuthorizationAttribute))]
     [Route("api/[controller]/[action]")]
     public class ObjectsCrudController : ControllerBase
     {
@@ -20,17 +20,44 @@ namespace Ondato_WebApi.Controllers
             _logger = logger;
         }
 
-        //[HttpGet]
-        //public IEnumerable<WeatherForecast> Get()
-        //{
-        //    var rng = new Random();
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        Date = DateTime.Now.AddDays(index),
-        //        TemperatureC = rng.Next(-20, 55),
-        //        Summary = Summaries[rng.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Get()
+        {
+            //get (return List<object> based on a given key
+            return Ok();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Create()
+        {
+            // create (if the key exists - value should be overriden)
+            return Ok();
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Append()
+        {
+            //append(if key does not exist - it should be created)
+            return Ok();
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> Delete()
+        {
+            //delete(by the key
+            return Ok();
+        }
     }
 }
