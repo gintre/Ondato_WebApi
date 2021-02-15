@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Ondato_WebApi.Logic;
+using Ondato_WebApi.Logic.Interfaces;
 
 namespace Ondato_WebApi
 {
@@ -19,6 +21,8 @@ namespace Ondato_WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<ICherryLogic, CherryLogic>();
 
             services.AddSwaggerGen();
         }
