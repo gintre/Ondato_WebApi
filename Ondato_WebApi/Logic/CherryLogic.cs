@@ -1,43 +1,44 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Ondato_WebApi.Exceptions;
-using Ondato_WebApi.Helpers;
 using Ondato_WebApi.Logic.Interfaces;
 using Ondato_WebApi.Mappers;
 using Ondato_WebApi.Models;
 using Ondato_WebApi.Models.Dto;
 using System;
+using System.Threading.Tasks;
 
 namespace Ondato_WebApi.Logic
 {
     public class CherryLogic : ICherryLogic
     {
         private readonly IConfiguration _config;
-        public CherryLogic(IConfiguration config)
+        private readonly IDataLoadLogic _dataLoadLogic;
+
+        public CherryLogic(IConfiguration config, IDataLoadLogic dataLoadLogic)
         {
             _config = config;
+            _dataLoadLogic = dataLoadLogic;
         }
 
-        public string CreateUpdate(CreateUpdateRequestDto createUpdateRequestDto)
+        public async Task CreateUpdate(CreateUpdateRequestDto createUpdateRequestDto)
         {
             SetCherryItemExpirationDate(createUpdateRequestDto.CherryItem);
 
             var cherry = CherryMapper.MapToModel(createUpdateRequestDto.CherryItem);
 
-            var result = DataStore.CreateUpdate(createUpdateRequestDto.Key, cherry);
-
-            return result;
+            await _dataLoadLogic.CreateUpdate(createUpdateRequestDto.Key, cherry);
         }
 
-        public void Delete(string key)
+        public async Task Delete(string key)
         {
-            DataStore.Delete(key);
+            await _dataLoadLogic.Delete(key);
         }
 
-        public CherryDto Get(string key)
+        public async Task<CherryDto> Get(string key)
         {
-            var item = DataStore.Get(key);
+            var item = await _dataLoadLogic.Get(key);
             ResetExpirationDate(item);
-            DataStore.CreateUpdate(key, item);
+            await _dataLoadLogic.CreateUpdate(key, item);
 
             var result = CherryMapper.MapToDtoModel(key, item);
             return result;

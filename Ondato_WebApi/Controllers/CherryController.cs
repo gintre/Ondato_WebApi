@@ -33,7 +33,7 @@ namespace Ondato_WebApi.Controllers
             CherryDto result;
             try
             {
-                result = _cherryLogic.Get(key);
+                result = await _cherryLogic.Get(key);
             }
             catch (Exception ex)
             {
@@ -52,10 +52,9 @@ namespace Ondato_WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            string response;
             try
             {
-                response = _cherryLogic.CreateUpdate(createUpdateRequestDto);
+                await _cherryLogic.CreateUpdate(createUpdateRequestDto);
             }
             catch (ExpirationDateException ex)
             {
@@ -66,7 +65,7 @@ namespace Ondato_WebApi.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return Ok(response);
+            return Ok();
         }
 
         [HttpPut("append")]
@@ -78,10 +77,9 @@ namespace Ondato_WebApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            string response;
             try
             {
-                response = _cherryLogic.CreateUpdate(createUpdateRequestDto);
+                await _cherryLogic.CreateUpdate(createUpdateRequestDto);
             }
             catch (ExpirationDateException ex)
             {
@@ -92,7 +90,7 @@ namespace Ondato_WebApi.Controllers
                 return BadRequest(ex.Message);
             }
 
-            return Ok(response);
+            return Ok();
         }
 
         [HttpDelete("delete/{key}")]
@@ -103,7 +101,7 @@ namespace Ondato_WebApi.Controllers
         {
             try
             {
-                _cherryLogic.Delete(key);
+                await _cherryLogic.Delete(key);
             }
             catch (Exception ex)
             {

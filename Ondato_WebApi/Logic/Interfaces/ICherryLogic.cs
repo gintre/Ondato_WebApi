@@ -1,13 +1,14 @@
 ﻿using Ondato_WebApi.Models.Dto;
+using System.Threading.Tasks;
 
 namespace Ondato_WebApi.Logic.Interfaces
 {
     public interface ICherryLogic
     {
-        string CreateUpdate(CreateUpdateRequestDto createUpdateRequestDto);
+        Task CreateUpdate(CreateUpdateRequestDto createUpdateRequestDto);
 
-        void Delete(string key);
+        Task Delete(string key);
 
-        CherryDto Get(string key);
+        Task<CherryDto> Get(string key);
     }
 }

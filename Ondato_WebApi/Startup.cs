@@ -21,8 +21,12 @@ namespace Ondato_WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
+            
             services.AddScoped<ICherryLogic, CherryLogic>();
+
+            services.AddScoped<IDataLoadLogic, DataLoadLogic>();
+
+            services.AddMemoryCache();
 
             services.AddSwaggerGen();
         }
